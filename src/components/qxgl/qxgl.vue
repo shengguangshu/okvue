@@ -15,12 +15,6 @@
 			<div class="col-sm-3">
 				<div class="col-sm-12" v-for="(item,index) in deps">
 					<div class="col-sm-12" @click="position(item.uuid)">{{item.depName}}</div>
-					<div class="col-sm-12" v-for="(item2,index) in item.modelList">
-						<div class="col-sm-12" @click="position(item2.uuid)">{{item2.depName}}</div>
-						<div class="col-sm-12" v-for="(item3,index) in item2.modelList">
-							<div class="col-sm-12" @click="position(item3.uuid)">{{item3.depName}}</div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -70,12 +64,14 @@
 				var obj = this;
 				obj.$data.jurs = [];
 				obj.$http({
-					method: 'get',
-					url: '/department/department/all',
-					data: {}
+					method: 'post',
+					url: '/department/page/1',
+					data: {
+						depName: ''
+					}
 				}).then((res) => {
 					if (res.data.success) {
-						obj.$data.deps = res.data.data;
+						obj.$data.deps = res.data.data.content;
 					} else {
 						obj.$data.deps = [];
 					}

@@ -38,32 +38,15 @@
 		},
 		created: function() {
 			// 获取所有的部门
-			this.department();
+			this.position();
 		},
 		methods: {
-			department: function() {
+			position: function() {
 				var obj = this;
 				obj.$data.jurs = [];
 				obj.$http({
 					method: 'get',
-					url: '/department/department/all',
-					data: {}
-				}).then((res) => {
-					if (res.data.success) {
-						obj.$data.deps = res.data.data;
-					} else {
-						obj.$data.deps = [];
-					}
-				}).catch(function(error) {
-					alert('错误' + error);
-				});
-			},
-			position: function(o) {
-				var obj = this;
-				obj.$data.jurs = [];
-				obj.$http({
-					method: 'get',
-					url: '/position/byDepId/' + o,
+					url: '/position/position/all',
 					data: {}
 				}).then((res) => {
 					if (res.data.success) {
