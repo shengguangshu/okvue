@@ -9,12 +9,11 @@ import $ from 'jquery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 
-import './assets/css/awes/font-awesome.min.css'
-import './assets/css/ionicons/ionicons.min.css'
-import './assets/css/AdminLTE.min.css'
-import './assets/css/skins/skin-blue.min.css'
-import './assets/font/font.css'
-import './assets/js/adminlte.min.js'
+import 'admin-lte/dist/css/AdminLTE.min.css'
+import 'admin-lte/dist/css/skins/skin-blue.min.css'
+import 'admin-lte/dist/js/adminlte.min.js'
+
+import './assets/font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 

@@ -1,68 +1,40 @@
 <template>
-	<div class="wrapper" style="height: auto; min-height: 100%;">
-
-		<!-- Main Header -->
+	<div class="wrapper">
+		<!-- 顶部导航栏 -->
 		<header class="main-header">
-
-			<!-- Logo -->
-			<a href="#" class="logo" @click="clickto('')">
-				<!-- mini logo for sidebar mini 50x50 pixels -->
-				<!-- <span class="logo-mini"><b>A</b>LT</span> -->
-				<!-- logo for regular state and mobile devices -->
-				<span class="logo-lg">方达</span>
-			</a>
-
-			<!-- Header Navbar -->
-			<nav class="navbar navbar-static-top" role="navigation" style="height: 50px;padding-top: 0;padding-bottom: 0;">
-				<!-- Sidebar toggle button-->
-				<a href="#" data-toggle="push-menu" role="button">
+			<router-link to="/home/index">
+				<a href="#" class="logo">
+					<span class="logo-lg">LOGO</span>
 				</a>
-				<!-- Navbar Right Menu -->
+			</router-link>
+			<nav class="navbar navbar-static-top justify-content-end">
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<!-- User Account Menu -->
 						<li class="dropdown user user-menu">
-							<!-- Menu Toggle Button -->
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<!-- The user image in the navbar-->
-								<!-- <img src="../../assets/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
-								<!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">个人中心</span>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="display:block;line-height: 50px;margin-top: -7px;margin-bottom: -7px;">
+								<span>个人中心</span>
 							</a>
-							<ul class="dropdown-menu">
-								<!-- The user image in the menu -->
-								<!-- <li class="user-header">
-									<img src="../../assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+							<ul class="dropdown-menu" style="margin-top: 6px;">
+								<!-- User image -->
+								<li class="user-header">
 									<p>
-										Alexander Pierce - Web Developer
-										<small>Member since Nov. 2012</small>
+										快乐工作每一天
 									</p>
-								</li> -->
-								<!-- Menu Body -->
-								<!-- <li class="user-body">
-									<div class="row">
-										<div class="col-xs-4 text-center">
-											<a href="#">Followers</a>
-										</div>
-										<div class="col-xs-4 text-center">
-											<a href="#">Sales</a>
-										</div>
-										<div class="col-xs-4 text-center">
-											<a href="#">Friends</a>
-										</div>
-									</div>
-								</li> -->
+								</li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
-									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat" @click="clickto('grzx')">个人资料</a>
+									<div class="float-left">
+										<router-link to="/home/grzl">
+											<a href="#" class="btn btn-default btn-flat">个人资料</a>
+										</router-link>
 									</div>
-									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat" @click="clickto('xgmm')">修改密码</a>
+									<div class="float-left">
+										<router-link to="/home/sgmm">
+											<a href="#" class="btn btn-default btn-flat">修改密码</a>
+										</router-link>
 									</div>
-									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat" @click="logout">注销</a>
+									<div class="float-right" @click="logout">
+										<a href="#" class="btn btn-danger btn-flat">注销</a>
 									</div>
 								</li>
 							</ul>
@@ -71,66 +43,63 @@
 				</div>
 			</nav>
 		</header>
-		<!-- Left side column. contains the logo and sidebar -->
+		<!-- 侧边栏 -->
 		<aside class="main-sidebar">
-
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-
-				<!-- Sidebar Menu -->
+			<section class="sidebar" style="height: auto;">
 				<ul class="sidebar-menu tree" data-widget="tree">
 					<li class="header">菜单</li>
-					<!-- Optionally, you can add icons to the links -->
 					<li class="treeview" v-for="(item,index) in menus">
-						<a v-if="item.jurType == 0">
-							<i class="fa fa-link"></i>
-							<span>{{item.jurName}}</span>
+						<a href="#" v-if="item.jurFlag == '0'">
+							<i class="fa fa-share"></i> <span>{{item.jurName}}</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
-						<a v-else :to="item.jurFlag">
-							{{item.jurName}}
-						</a>
-						<ul class="treeview-menu">
-							<li v-for="(item2,index2) in item.list">
-								<a @click="clickto(item2.jurFlag)">
-									{{item2.jurName}}
+						<router-link v-else :to="item.jurFlag">
+							<a href="#">
+								<i class="fa fa-share"></i> <span>{{item.jurName}}</span>
+							</a>
+						</router-link>
+						<ul class="treeview-menu" style="display: none;">
+							<li class="treeview" v-for="(item21,index21) in item.list" v-if="item21.JurFlag == '0'">
+								<a href="#">
+									<i class="fa fa-circle-o"></i> {{item21.jurName}}
+									<span class="pull-right-container">
+										<i class="fa fa-angle-left pull-right"></i>
+									</span>
 								</a>
+								<!-- <ul class="treeview-menu" style="display: none;">
+									<li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+									<li class="treeview">
+										<a href="#"><i class="fa fa-circle-o"></i> Level Two
+											<span class="pull-right-container">
+												<i class="fa fa-angle-left pull-right"></i>
+											</span>
+										</a>
+										<ul class="treeview-menu" style="display: none;">
+											<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+											<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+										</ul>
+									</li>
+								</ul> -->
+							</li>
+							<li v-for="(item22,index22) in item.list" v-if="item22.JurFlag != '0'">
+								<router-link :to="item22.jurFlag">
+									<a href="#">
+										<i class="fa fa-circle-o"></i> {{item22.jurName}}
+									</a>
+								</router-link>
 							</li>
 						</ul>
 					</li>
 				</ul>
-				<!-- /.sidebar-menu -->
 			</section>
 			<!-- /.sidebar -->
 		</aside>
-
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper" style="height: calc(100vh - 102px);">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-
-			</section>
-
-			<!-- Main content -->
-			<section class="content container-fluid">
-				<router-view />
-			</section>
-			<!-- /.content -->
+		<!-- 内容 -->
+		<div class="content-wrapper">
+			<router-view />
 		</div>
-		<!-- /.content-wrapper -->
-
-		<!-- Main Footer -->
-		<footer class="main-footer">
-			<!-- To the right -->
-			<div class="pull-right hidden-xs">
-				Anything you want
-			</div>
-			<!-- Default to the left -->
-			<strong>Copyright © 2016 <a href="#">Company</a>.</strong> All rights reserved.
-		</footer>
-
 	</div>
 </template>
 
@@ -139,10 +108,10 @@
 		name: 'home',
 		data() {
 			return {
-				menuback: {
-					backgroundImage: 'url(' + require('../../assets/img/timg.jpg') + ')',
-					backgroundSize: '230 44'
-				},
+				// 				menuback: {
+				// 					backgroundImage: 'url(' + require('../../assets/img/timg.jpg') + ')',
+				// 					backgroundSize: '230 44'
+				// 				},
 				menus: []
 			}
 		},
