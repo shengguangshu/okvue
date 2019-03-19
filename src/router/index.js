@@ -6,6 +6,8 @@ import index from '@/components/home/index'
 import qxgl from '@/components/qxgl/qxgl'
 import bmgl from '@/components/bmgl/bmgl'
 import zwgl from '@/components/zwgl/zwgl'
+import cshqx from '@/components/cshqx/cshqx'
+
 
 
 import notFile from '@/components/notFile'
@@ -60,6 +62,14 @@ export default new Router({
 			meta: {
 				isLogin: true,
 				isJur: 'zwgl'
+			}
+		}, {
+			path: 'cshqx',
+			name: 'cshqx',
+			component: cshqx,
+			meta: {
+				isLogin: true,
+				isJur: 'cshqx'
 			}
 		}]
 	}, {
