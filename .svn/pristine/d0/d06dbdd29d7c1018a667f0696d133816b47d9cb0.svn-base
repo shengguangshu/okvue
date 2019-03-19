@@ -1,0 +1,72 @@
+<template>
+	<div class="container-fluid" style="padding: 0;min-height: 100vh;">
+		<!-- fixed-top 固定在头部 -->
+		<nav class="navbar navbar-expand-sm bg-primary navbar-dark" style="padding: 0;margin: 0;">
+			<img class="navbar-brand" src="../../assets/logo.png" alt="Logo" style="width:30px;">
+			<div class="navbar-custom-menu ml-auto" style="height: 30px;">
+				<ul class="navbar-nav" style="height: 30px;">
+					<li class="nav-item active" style="height: 30px;">
+						<div class="btn-group" style="height: 30px;">
+							<label class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" style="cursor:pointer;margin: 0;font-size: 11px;height: 30px;">
+								<span class="caret">个人中心&nbsp;&nbsp;&nbsp;</span>
+							</label>
+							<div class="dropdown-menu dropdown-menu-right" style="cursor: hand;font-size: 11px;">
+								<a class="dropdown-item" href="#" @click="clickto('grzx')">个人中心</a>
+								<a class="dropdown-item" href="#" @click="clickto('xgmm')">修改密码</a>
+								<a class="dropdown-item" href="#" @click="logout">注销</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- background-color: #222d32; -->
+		<nav class="navbar bg-light" style="width: 230px;padding: 0;height: calc(100vh - 40px);">
+			<ul class="navbar-nav" style="width: 230px;height: calc(100vh - 40px);background-color: #222d32;">
+				<li :style="menuback" class="nav-item" style="width: 230px;height: 44px;border:1px solid #242424;" v-for="(item,index) in menus">
+					<router-link class="text-center" style="color:#8aa4af;display:block;width: 230px;height: 44px;line-height: 44px;text-decoration: none;font-size: 14px;"
+					 to="/">
+						{{item}}
+					</router-link>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: 'home',
+		data() {
+			return {
+				menuback: {
+					backgroundImage: 'url(' + require('../../assets/img/timg.jpg') + ')',
+					backgroundSize: '230 44'
+				},
+				menus: [
+					'首页',
+					'菜单一'
+				]
+			}
+		},
+		methods: {
+			clickto: function(o) {
+				this.$router.replace({
+					path: '/home/' + o
+				});
+			},
+			logout: function() {
+				let token = window.localStorage.getItem('LTokenD');
+				if (token && token != '') {
+					window.localStorage.clear();
+				}
+				this.$router.push({
+					path: '/'
+				});
+			}
+		}
+	}
+</script>
+
+<style>
+</style>
