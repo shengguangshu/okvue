@@ -129,7 +129,7 @@
 				}).then((res) => {
 					alert(res.data.message);
 					if (res.data.success) {
-						obj.getDatas(obj.$data.pageNow);
+						obj.page();
 					}
 				}).catch(function(error) {
 					alert('错误' + error);

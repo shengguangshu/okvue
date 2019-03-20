@@ -11,7 +11,7 @@
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
 						<li class="dropdown user user-menu">
-							<a class="dropdown-toggle" data-toggle="dropdown" style="display:block;line-height: 50px;margin-top: -7px;margin-bottom: -7px;">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="display:block;line-height: 50px;margin-top: -7px;margin-bottom: -7px;">
 								<span>个人中心</span>
 							</a>
 							<ul class="dropdown-menu" style="margin-top: 6px;">
@@ -25,16 +25,16 @@
 								<li class="user-footer">
 									<div class="float-left">
 										<router-link to="/home/grzl">
-											<a class="btn btn-default btn-flat">个人资料</a>
+											<a href="#" class="btn btn-default btn-flat">个人资料</a>
 										</router-link>
 									</div>
 									<div class="float-left">
 										<router-link to="/home/sgmm">
-											<a class="btn btn-default btn-flat">修改密码</a>
+											<a href="#" class="btn btn-default btn-flat">修改密码</a>
 										</router-link>
 									</div>
 									<div class="float-right" @click="logout">
-										<a class="btn btn-danger btn-flat">注销</a>
+										<a href="#" class="btn btn-danger btn-flat">注销</a>
 									</div>
 								</li>
 							</ul>
@@ -46,53 +46,79 @@
 		<!-- 侧边栏 -->
 		<aside class="main-sidebar" style="height: calc(100vh - 50);">
 			<section class="sidebar" style="height: auto;">
-				<ul class="sidebar-menu tree" data-widget="tree">
-					<li class="header">菜单</li>
-					<li class="treeview" v-for="(item,index) in menus">
-						<a v-if="item.jurFlag == '0'">
-							<i class="fa fa-share"></i> <span>{{item.jurName}}</span>
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
+				<div v-for="(item,index) in menus" style="height: 40px;width: 230px;background-color: #1d272b;color: #FFFFFF;display: inline-block;">
+					<div @click="men($event)" class="men1" v-if="item.jurFlag == '0'" style="margin: 10px 5px;cursor: pointer;">
+						<span class="pull-left-container">
+							<i class="fa fa-share pull-left"></i>
+						</span>
+						<span>
+							{{item.jurName}}
+						</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</div>
+					<div v-else style="margin: 10px 5px;cursor: pointer;">
+						<router-link :to="item.jurFlag" style="color:#FFFFFF;display:block;width: 100%;height: 100%;">
+							<span class="pull-left-container">
+								<i class="fa fa-circle-o pull-left"></i>
 							</span>
-						</a>
-						<router-link v-else :to="item.jurFlag">
-							<a href="#">
-								<i class="fa fa-share"></i> <span>{{item.jurName}}</span>
-							</a>
+							<span>
+								{{item.jurName}}
+							</span>
 						</router-link>
-						<ul class="treeview-menu" style="display: none;">
-							<li class="treeview" v-for="(item21,index21) in item.list" v-if="item21.JurFlag == '0'">
-								<a href="#">
-									<i class="fa fa-circle-o"></i> {{item21.jurName}}
-									<span class="pull-right-container">
-										<i class="fa fa-angle-left pull-right"></i>
+					</div>
+					<div class="men12" style="display: none;min-height:40px;padding-bottom: 20px;">
+						<div v-for="(item2,index) in item.list" style="height: 40px;width: 230px;background-color: #1a2225;color: #FFFFFF;display: inline-block;">
+							<div @click="men($event)" class="men21" v-if="item2.jurFlag == '0'" style="margin: 10px 5px;cursor: pointer;">
+								<span class="pull-left-container">
+									<i class="fa fa-share pull-left"></i>
+								</span>
+								<span>
+									{{item2.jurName}}
+								</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</div>
+							<div v-else style="margin: 10px 5px;cursor: pointer;">
+								<router-link :to="item2.jurFlag" style="color:#FFFFFF;display:block;width: 100%;height: 100%;">
+									<span class="pull-left-container">
+										<i class="fa fa-circle-o pull-left"></i>
 									</span>
-								</a>
-								<!-- <ul class="treeview-menu" style="display: none;">
-									<li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-									<li class="treeview">
-										<a href="#"><i class="fa fa-circle-o"></i> Level Two
-											<span class="pull-right-container">
-												<i class="fa fa-angle-left pull-right"></i>
-											</span>
-										</a>
-										<ul class="treeview-menu" style="display: none;">
-											<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-											<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-										</ul>
-									</li>
-								</ul> -->
-							</li>
-							<li v-for="(item22,index22) in item.list" v-if="item22.JurFlag != '0'">
-								<router-link :to="item22.jurFlag">
-									<a href="#">
-										<i class="fa fa-circle-o"></i> {{item22.jurName}}
-									</a>
+									<span>
+										{{item2.jurName}}
+									</span>
 								</router-link>
-							</li>
-						</ul>
-					</li>
-				</ul>
+							</div>
+							<div class="men22" style="display: none;">
+								<div v-for="(item3,index) in item2.list" style="height: 40px;width: 230px;background-color: #12181a;color: #FFFFFF;display: inline-block;display: none;">
+									<div @click="men($event)" class="men3" v-if="item3.jurFlag == '0'" style="margin: 10px 5px;cursor: pointer;">
+										<span class="pull-left-container">
+											<i class="fa fa-share pull-left"></i>
+										</span>
+										<span>
+											{{item3.jurName}}
+										</span>
+										<span class="pull-right-container">
+											<i class="fa fa-angle-left pull-right"></i>
+										</span>
+									</div>
+									<div v-else style="margin: 10px 5px;cursor: pointer;">
+										<router-link :to="item3.jurFlag" style="color:#FFFFFF;display:block;width: 100%;height: 100%;">
+											<span class="pull-left-container">
+												<i class="fa fa-circle-o pull-left"></i>
+											</span>
+											<span>
+												{{item3.jurName}}
+											</span>
+										</router-link>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 			<!-- /.sidebar -->
 		</aside>
@@ -144,6 +170,9 @@
 			// 获取当前登陆人权限
 			this.authority();
 		},
+		// 		beforeMount:function(){
+		// 			this.$forceUpdate();
+		// 		},
 		methods: {
 			clickto: function(o) {
 				this.$router.replace({
@@ -159,7 +188,7 @@
 				}).then((res) => {
 					if (res.data.success) {
 						obj.$data.menus = res.data.data;
-						obj.jur(res.data.data);
+						// obj.jur(res.data.data);
 					} else {
 						obj.$data.menus = [];
 					}
@@ -188,10 +217,21 @@
 					});
 				});
 				window.localStorage.setItem('role', a);
+			},
+			men: function(obj) {
+				var a = obj.currentTarget.nextElementSibling.style.display;
+				a == 'none' ? obj.currentTarget.nextElementSibling.style.display = 'block' : obj.currentTarget.nextElementSibling.style
+					.display = 'none';
 			}
 		}
 	}
 </script>
 
 <style>
+	.btn.focus,
+	.btn:focus {
+		outline: 0;
+		-webkit-box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0);
+	}
 </style>

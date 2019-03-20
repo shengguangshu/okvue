@@ -6,13 +6,12 @@
 					<div class="card-header">
 						<div class="box-tools pull-right">
 							<div class="input-group input-group-sm" style="width: 300px;">
-								<input type="text" v-model="account" class="form-control" placeholder="账号">
 								<input type="text" v-model="name" class="form-control" placeholder="姓名">
 								<div class="input-group-btn">
-									<button type="button" class="btn btn-primary btn-sm" @click="getDatas(1)">
+									<button type="button" class="btn btn-primary btn-sm" @click="page()">
 										<i class="fa fa-search"></i>
 									</button>
-									<button type="button" class="btn btn-primary btn-sm">
+									<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
 										<i class="fa fa-plus"></i>
 									</button>
 								</div>
@@ -34,12 +33,47 @@
 									<td>{{index+1}}</td>
 									<td>{{item.account}}</td>
 									<td>{{item.user.name}}</td>
-									<td>{{item.depId}}</td>
-									<td>{{item.posId}}</td>
-									<td></td>
+									<td>{{item.departmentModel.depName}}</td>
+									<td>{{item.positionModel.posName}}</td>
+									<td>
+										<button type="button" class="btn btn-danger btn-sm" @click="remove(item.uuid)">
+											<i class="fa fa-close"></i>
+										</button>
+										<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update" @click="update(item.uuid)">
+											<i class="fa fa-pencil"></i>
+										</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新增弹窗 -->
+		<div class="modal modal-info fade" id="add" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span></button>
+					</div>
+					<div class="modal-body">
+						<bmadd></bmadd>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 修改弹窗 -->
+		<div class="modal modal-info fade" id="update" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span></button>
+					</div>
+					<div class="modal-body">
+						<bmupdate ref="update"></bmupdate>
 					</div>
 				</div>
 			</div>
@@ -48,28 +82,40 @@
 </template>
 
 <script>
+	import bmadd from '@/components/yggl/add.vue';
+	import bmupdate from '@/components/yggl/update.vue';
+
 	export default {
 		name: 'yggl',
 		data() {
 			return {
+				name: '',
 				datas: [],
-				pageNow: 1,
-				account: '',
-				name: ''
+				pageNow: 1
 			}
 		},
+		components: {
+			bmadd,
+			bmupdate
+		},
 		created: function() {
-			this.getDatas(1);
+			// 获取所有的部门
+			this.page();
 		},
 		methods: {
-			getDatas: function(pageNow) {
+			page: function() {
+				this.$data.pageNow = 1;
+				this.getDatas();
+			},
+			getDatas: function() {
 				var obj = this;
 				obj.$http({
 					method: 'post',
-					url: '/account/page/' + pageNow,
+					url: '/account/page/' + obj.$data.pageNow,
 					data: {
-						'account': this.account,
-						'user.name': this.name
+						'user': {
+							'name': this.name
+						}
 					}
 				}).then((res) => {
 					if (res.data.success) {
@@ -80,6 +126,26 @@
 				}).catch(function(error) {
 					alert('错误' + error);
 				});
+			},
+			// 删除
+			remove: function(uuid) {
+				var obj = this;
+				obj.$http({
+					method: 'delete',
+					url: '/account/account/' + uuid,
+					data: {}
+				}).then((res) => {
+					alert(res.data.message);
+					if (res.data.success) {
+						obj.page();
+					}
+				}).catch(function(error) {
+					alert('错误' + error);
+				});
+			},
+			// 修改
+			update: function(uuid) {
+				this.$refs.update.getData(uuid);
 			}
 		}
 	}

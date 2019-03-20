@@ -4,16 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import $ from 'jquery'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-
 import 'admin-lte/dist/css/AdminLTE.min.css'
 import 'admin-lte/dist/css/skins/skin-blue.min.css'
+import './assets/font-awesome/css/font-awesome.min.css'
+
+import $ from 'jquery'
+import 'bootstrap/dist/js/bootstrap.min.js'
 import 'admin-lte/dist/js/adminlte.min.js'
 
-import './assets/font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 
@@ -76,23 +76,23 @@ router.beforeEach((to, from, next) => {
 			})
 		} else {
 			to.matched.forEach(function(e, index) {
-				var a = e.meta.isJur;
-				if (a != undefined) {
-					var r = window.localStorage.getItem('role');
-					if (r) {
-						if (r.search(a) != -1) {
-							next();
-						} else {
-							router.replace({
-								path: '/403'
-							})
-						}
-					} else {
-						next();
-					}
-				} else {
+// 				var a = e.meta.isJur;
+// 				if (a != undefined) {
+// 					var r = window.localStorage.getItem('role');
+// 					if (r) {
+// 						if (r.search(a) != -1) {
+// 							next();
+// 						} else {
+// 							router.replace({
+// 								path: '/403'
+// 							})
+// 						}
+// 					} else {
+// 						next();
+// 					}
+// 				} else {
 					next();
-				}
+				// }
 			});
 			next();
 		}

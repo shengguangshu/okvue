@@ -1,32 +1,35 @@
 <template>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-3" style="border-bottom: 1px solid aqua;">
-				<h5>部门</h5>
-			</div>
-			<div class="col-sm-3" style="border-bottom: 1px solid aqua;">
-				<h5>职位</h5>
+			<div class="col-sm-6" style="border-bottom: 1px solid aqua;">
+				<h5>部门/职位</h5>
 			</div>
 			<div class="col-sm-6" style="border-bottom: 1px solid aqua;">
 				<h5>权限</h5>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-3">
-				<div class="col-sm-12" v-for="(item,index) in deps">
-					<div class="col-sm-12" @click="position(item.uuid)">{{item.depName}}</div>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="col-sm-12" v-for="(item,index) in poss">
-					<div class="col-sm-12" @click="jurisdiction(item.uuid)">{{item.posName}}</div>
-					<div class="col-sm-12" v-for="(item2,index) in item.modelList">
-						<div class="col-sm-12" @click="jurisdiction(item.uuid)">{{item2.posName}}</div>
-						<div class="col-sm-12" v-for="(item3,index) in item2.modelList">
-							<div class="col-sm-12" @click="jurisdiction(item.uuid)">{{item3.posName}}</div>
-						</div>
-					</div>
-				</div>
+			<div class="col-sm-6">
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<th>#</th>
+							<th>部门</th>
+							<th>职位</th>
+							<th>操作</th>
+						</tr>
+						<tr v-for="(item,index) in ydatas">
+							<td>{{index+1}}</td>
+							<td>{{item.departmentModel.depName}}</td>
+							<td>{{item.posName}}</td>
+							<td>
+								<button type="button" class="btn btn-danger btn-sm" @click="jurisdiction(item.uuid)">
+									管理权限
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div class="col-sm-6">
 				<div class="col-sm-12" v-for="(item,index) in jurs" style="margin-top: 5px;">
@@ -49,48 +52,26 @@
 		name: 'qxgl',
 		data() {
 			return {
-				deps: [],
-				poss: [],
-				jurs: [],
-				posId: null
+				ydatas: [],
+				posId: null,
+				jurs: []
 			}
 		},
 		created: function() {
-			// 获取所有的部门
-			this.department();
+			this.getPosDatas();
 		},
 		methods: {
-			department: function() {
+			getPosDatas: function() {
 				var obj = this;
-				obj.$data.jurs = [];
-				obj.$http({
-					method: 'post',
-					url: '/department/page/1',
-					data: {
-						depName: ''
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						obj.$data.deps = res.data.data.content;
-					} else {
-						obj.$data.deps = [];
-					}
-				}).catch(function(error) {
-					alert('错误' + error);
-				});
-			},
-			position: function(o) {
-				var obj = this;
-				obj.$data.jurs = [];
 				obj.$http({
 					method: 'get',
-					url: '/position/byDepId/' + o,
+					url: '/position/find/all',
 					data: {}
 				}).then((res) => {
 					if (res.data.success) {
-						obj.$data.poss = res.data.data;
+						obj.$data.ydatas = res.data.data;
 					} else {
-						obj.$data.poss = [];
+						obj.$data.ydatas = [];
 					}
 				}).catch(function(error) {
 					alert('错误' + error);
@@ -98,6 +79,7 @@
 			},
 			jurisdiction: function(o) {
 				var obj = this;
+				obj.$data.jurs = [];
 				obj.$data.posId = o;
 				obj.$http({
 					method: 'get',
@@ -120,8 +102,12 @@
 					method: 'post',
 					url: '/authority/authority',
 					data: {
-						autPostId: p,
-						autJurId: o
+						positionModel: {
+							uuid: p
+						},
+						jurisdictionModel: {
+							uuid: o
+						}
 					}
 				}).then((res) => {
 					if (res.data.success) {
