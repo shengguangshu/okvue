@@ -39,6 +39,9 @@
 										<button type="button" class="btn btn-danger btn-sm" @click="remove(item.uuid)">
 											<i class="fa fa-close"></i>
 										</button>
+										<button type="button" class="btn btn-warning btn-sm" @click="restPass(item.uuid)">
+											重置密码
+										</button>
 										<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update" @click="update(item.uuid)">
 											<i class="fa fa-pencil"></i>
 										</button>
@@ -146,6 +149,19 @@
 			// 修改
 			update: function(uuid) {
 				this.$refs.update.getData(uuid);
+			},
+			// 重置密码
+			restPass: function(uuid) {
+				var obj = this;
+				obj.$http({
+					method: 'get',
+					url: '/account/rest/' + uuid,
+					data: {}
+				}).then((res) => {
+					alert(res.data.message);
+				}).catch(function(error) {
+					alert('错误' + error);
+				});
 			}
 		}
 	}

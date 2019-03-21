@@ -5,14 +5,6 @@
 			<input type="text" v-model="userName" class="form-control" id="exampleInputEmail1" placeholder="姓名">
 		</div>
 		<div class="form-group">
-			<label for="exampleInputEmail1">账号</label>
-			<input type="text" v-model="account" class="form-control" id="exampleInputEmail1" placeholder="账号">
-		</div>
-		<div class="form-group">
-			<label for="exampleInputEmail1">密码</label>
-			<input type="text" v-model="password" class="form-control" id="exampleInputEmail1" placeholder="密码">
-		</div>
-		<div class="form-group">
 			<label for="exampleInputEmail1">部门</label>
 			<select v-model="depName" @change="getPos" class="form-control" id="exampleInputEmail1" placeholder="部门">
 				<option value="">请选择</option>
@@ -41,14 +33,13 @@
 	export default {
 		data() {
 			return {
-				account: '',
-				password: '',
 				userName: '',
 				depName: '',
 				depNames: [],
 				posName: '',
 				posNames: [],
-				ydatas: []
+				ydatas: [],
+				uuid: ''
 			}
 		},
 		created: function() {
@@ -98,14 +89,32 @@
 					obj.$data.posNames = a;
 				}
 			},
+			getData: function(o) {
+				var obj = this;
+				obj.$http({
+					method: 'get',
+					url: '/account/account/' + o,
+					data: {}
+				}).then((res) => {
+					if (res.data.success) {
+						obj.$data.uuid = res.data.data.uuid;
+						obj.$data.userName = res.data.data.user.name;
+						obj.$data.depName = res.data.data.departmentModel.uuid;
+						obj.getPos();
+						obj.$data.posName = res.data.data.positionModel.uuid;
+					} else {
+						alert(res.data.message);
+					}
+				}).catch(function(error) {
+					alert('错误' + error);
+				});
+			},
 			save: function() {
 				var obj = this;
 				obj.$http({
-					method: 'post',
-					url: '/account/account',
+					method: 'put',
+					url: '/account/account/' + obj.$data.uuid,
 					data: {
-						account: this.account,
-						password: this.password,
 						user: {
 							name: this.userName
 						},
