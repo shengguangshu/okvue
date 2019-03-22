@@ -14,7 +14,6 @@ import $ from 'jquery'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'admin-lte/dist/js/adminlte.min.js'
 
-
 Vue.config.productionTip = false
 
 //- 引入服务器地址
@@ -28,7 +27,7 @@ Vue.config.productionTip = true
 //- 设置全局请求前缀
 axios.defaults.baseURL = 'http://' + serverPath.serverPath
 //- 设置全局超时时间
-axios.defaults.timeout = 6000;
+axios.defaults.timeout = 6000 * 60;
 axios.interceptors.request.use(function(config) {
 	var token = window.localStorage.getItem('LTokenD');
 	if (!token || token == '') {

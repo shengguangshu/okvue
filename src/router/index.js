@@ -8,7 +8,7 @@ import bmgl from '@/components/bmgl/bmgl'
 import zwgl from '@/components/zwgl/zwgl'
 import cshqx from '@/components/cshqx/cshqx'
 import yggl from '@/components/yggl/yggl'
-
+import tags from '@/components/tags/tags'
 
 
 import notFile from '@/components/notFile'
@@ -79,6 +79,14 @@ export default new Router({
 				meta: {
 					isLogin: true,
 					isJur: 'yggl'
+				}
+			}, {
+				path: 'tags',
+				name: 'tags',
+				component: tags,
+				meta: {
+					isLogin: true,
+					isJur: 'tags'
 				}
 			}
 
