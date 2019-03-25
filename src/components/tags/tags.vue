@@ -23,14 +23,14 @@
 							<tbody>
 								<tr>
 									<th>#</th>
-									<th>添加人</th>
 									<th>添加日期</th>
+									<th>内容</th>
 									<th>操作</th>
 								</tr>
 								<tr v-for="(item,index) in datas">
 									<td>{{index+1}}</td>
-									<td>{{item.accountModel.user.name}}</td>
 									<td>{{item.sysTime}}</td>
+									<td>{{item.tagsBody}}</td>
 									<td>
 										<button type="button" class="btn btn-danger btn-sm" @click="remove(item.uuid)">
 											<i class="fa fa-close"></i>
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		<!-- 新增弹窗 -->
-		<div class="modal modal-info fade" id="add" style="display: none;">
+		<div class="modal modal-deful fade" id="add" style="display: none;">
 			<div class="modal-dialog" style="max-width:100%;margin: 0;height: 100%;">
 				<div class="modal-content">
 					<div class="modal-header">

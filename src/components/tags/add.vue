@@ -1,47 +1,224 @@
 <template>
-	<div class="goods-editor">
-		<!-- 工具栏容器 -->
-		<div id="toolbar-container"></div>
-
-		<!-- 编辑器容器 -->
-		<div id="editor">
-			<!-- <p>This is the initial editor content.</p> -->
+	<div class="row">
+		<div class="col-sm-6">
+			<quill-editor class="editor" ref="myTextEditor" v-model="content" :options="editorOption" @blur="onEditorBlur($event)"
+			 @focus="onEditorFocus($event)" @ready="onEditorReady($event)" @change="onEditorChange($event)">
+			</quill-editor>
+		</div>
+		<div class="col-sm-6">
+			<input type="button" value="保存" @click="save" />
+			<div>
+				<textarea v-model="str" @change="onEditorChange2($event)" style="width: 100%;min-height: 775px;">
+				</textarea>
+			</div>
 		</div>
 	</div>
+
 </template>
 
 <script>
-	import CKEditor from '@ckeditor/ckeditor5-build-inline/build/ckeditor.js'
-	import '@ckeditor/ckeditor5-build-inline/build/translations/zh-cn'
 	export default {
 		data() {
 			return {
-				editor: null, // 编辑器实例
+				str: '',
+				content: null,
+				editorOption: {
+					modules: {
+						toolbar: [
+							["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
+							["blockquote", "code-block"], // 引用  代码块
+							[{
+								header: 1
+							}, {
+								header: 2
+							}], // 1、2 级标题
+							[{
+								list: "ordered"
+							}, {
+								list: "bullet"
+							}], // 有序、无序列表
+							[{
+								script: "sub"
+							}, {
+								script: "super"
+							}], // 上标/下标
+							[{
+								indent: "-1"
+							}, {
+								indent: "+1"
+							}], // 缩进
+							// [{'direction': 'rtl'}],                         // 文本方向
+							[{
+								size: ["small", false, "large", "huge"]
+							}], // 字体大小
+							[{
+								header: [1, 2, 3, 4, 5, 6, false]
+							}], // 标题
+							[{
+								color: []
+							}, {
+								background: []
+							}], // 字体颜色、字体背景颜色
+							[{
+								font: []
+							}], // 字体种类
+							[{
+								align: []
+							}], // 对齐方式
+							['clean'], // 清除文本格式
+							["link", "image", "video"] // 链接、图片、视频
+						], //工具菜单栏配置
+					},
+					placeholder: '请在这里添加产品描述', //提示
+					readyOnly: false, //是否只读
+					theme: 'snow', //主题 snow/bubble
+					syntax: true, //语法检测
+				}
 			}
 		},
-		mounted() {
-			this.initCKEditor()
-		},
 		methods: {
-			initCKEditor() {
-				CKEditor.create(document.querySelector('#editor'), {
-					language: 'zh-cn',
-					ckfinder: {
-						uploadUrl: '/admin/Upload/uploadUrl'
-						//后端处理上传逻辑返回json数据,包括uploaded(选项true/false)和url两个字段
-					},
-					// toolbar: "full"
-				}).then(editor => {
-					const toolbarContainer = document.querySelector('#toolbar-container');
-					toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-					this.editor = editor //将编辑器保存起来，用来随时获取编辑器中的内容等，执行一些操作
-				}).catch(error => {
-					console.error(error);
+			// 失去焦点
+			onEditorBlur: function(editor) {
+
+			},
+			onEditorBlur2: function(editor) {
+
+			},
+			// 获得焦点
+			onEditorFocus: function(editor) {
+
+			},
+			// 开始
+			onEditorReady: function(editor) {},
+			// 值发生变化
+			onEditorChange: function(editor) {
+				this.content = editor.html;
+				this.escapeStringHTML(editor.html);
+			},
+			// 值发生变化
+			onEditorChange2: function(editor) {
+				this.content = this.$data.str;
+			},
+			// 转码
+			escapeStringHTML: function(str) {
+				// 				str = str.replace(/</g, '<');
+				// 				str = str.replace(/>/g, '>');
+				this.$data.str = str;
+			},
+			save: function() {
+				var obj = this;
+				obj.$http({
+					method: 'post',
+					url: '/tags/tags',
+					data: {
+						tagsBody: this.str
+					}
+				}).then((res) => {
+					alert(res.data.message);
+					if (res.data.success) {
+						obj.$data.str = '';
+						this.$parent.page();
+					}
+				}).catch(function(error) {
+					alert('错误' + error);
 				});
+			}
+		},
+		computed: {
+			editor() {
+				return this.$refs.myTextEditor.quillEditor;
 			}
 		}
 	}
 </script>
 
 <style>
+	.editor {
+		line-height: normal !important;
+		height: 800px;
+	}
+
+	.ql-snow .ql-tooltip[data-mode=link]::before {
+		content: "请输入链接地址:";
+	}
+
+	.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+		border-right: 0px;
+		content: '保存';
+		padding-right: 0px;
+	}
+
+	.ql-snow .ql-tooltip[data-mode=video]::before {
+		content: "请输入视频地址:";
+	}
+
+	.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+	.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+		content: '14px';
+	}
+
+	.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
+	.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+		content: '10px';
+	}
+
+	.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
+	.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+		content: '18px';
+	}
+
+	.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
+	.ql-snow .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+		content: '32px';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+		content: '文本';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+		content: '标题1';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+		content: '标题2';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+		content: '标题3';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+		content: '标题4';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+		content: '标题5';
+	}
+
+	.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
+	.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+		content: '标题6';
+	}
+
+	.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+	.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+		content: '标准字体';
+	}
+
+	.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=serif]::before,
+	.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=serif]::before {
+		content: '衬线字体';
+	}
+
+	.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=monospace]::before,
+	.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before {
+		content: '等宽字体';
+	}
 </style>

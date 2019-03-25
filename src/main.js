@@ -14,6 +14,12 @@ import $ from 'jquery'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'admin-lte/dist/js/adminlte.min.js'
 
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor);
+
 Vue.config.productionTip = false
 
 //- 引入服务器地址
@@ -75,22 +81,22 @@ router.beforeEach((to, from, next) => {
 			})
 		} else {
 			to.matched.forEach(function(e, index) {
-// 				var a = e.meta.isJur;
-// 				if (a != undefined) {
-// 					var r = window.localStorage.getItem('role');
-// 					if (r) {
-// 						if (r.search(a) != -1) {
-// 							next();
-// 						} else {
-// 							router.replace({
-// 								path: '/403'
-// 							})
-// 						}
-// 					} else {
-// 						next();
-// 					}
-// 				} else {
-					next();
+				// 				var a = e.meta.isJur;
+				// 				if (a != undefined) {
+				// 					var r = window.localStorage.getItem('role');
+				// 					if (r) {
+				// 						if (r.search(a) != -1) {
+				// 							next();
+				// 						} else {
+				// 							router.replace({
+				// 								path: '/403'
+				// 							})
+				// 						}
+				// 					} else {
+				// 						next();
+				// 					}
+				// 				} else {
+				next();
 				// }
 			});
 			next();

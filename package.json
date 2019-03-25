@@ -14,13 +14,13 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-inline": "^12.0.0",
     "admin-lte": "^2.4.10",
     "axios": "^0.18.0",
     "ckeditor": "file:node_modules/ckeditor",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.7",
     "vue": "^2.5.2",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
