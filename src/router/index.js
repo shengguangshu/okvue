@@ -11,6 +11,7 @@ import yggl from '@/components/yggl/yggl'
 import tags from '@/components/tags/tags'
 import brand from '@/components/brand/brand'
 import number from '@/components/number/number'
+import carIntroduction from '@/components/carIntroduction/page'
 
 import notFile from '@/components/notFile'
 import notJurisdiction from '@/components/notJurisdiction'
@@ -104,6 +105,14 @@ export default new Router({
          meta: {
            isLogin: true,
            isJur: 'number'
+         }
+       }, {
+         path: 'carIntroduction',
+         name: 'carIntroduction',
+         component: carIntroduction,
+         meta: {
+           isLogin: true,
+           isJur: 'carIntroduction'
          }
        }
 

@@ -43,6 +43,23 @@
 							</tbody>
 						</table>
 					</div>
+          <div class="box-footer">
+            <ul class="pagination pull-right">
+              <li class="page-item"><a class="page-link">总条数:{{totalElements}}</a></li>
+              <li class="page-item"><a class="page-link">总页数:{{totalPages}}</a></li>
+              <!--<li class="page-item"><a class="page-link">当前页数:</a></li>-->
+              <!--<li class="page-item"><a class="page-link">{{pageNow}}</a></li>-->
+              <li class="page-item" v-for="item in pages" v-if="item < pageNow" @click="page2(item)">
+                <a class="page-link" style="cursor:pointer;">{{item}}</a>
+              </li>
+              <li class="page-item active" v-for="item in pages" v-if="item == pageNow" @click="page2(item)">
+                <a class="page-link" style="cursor:pointer;">{{item}}</a>
+              </li>
+              <li class="page-item" v-for="item in pages" v-if="item > pageNow" @click="page2(item)">
+                <a class="page-link" style="cursor:pointer;">{{item}}</a>
+              </li>
+            </ul>
+          </div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +104,10 @@
 			return {
 				numberName: '',
 				datas: [],
-				pageNow: 1
+				pageNow: 1,
+				totalElements:0,
+				totalPages:0,
+				pages:[]
 			}
 		},
 		components: {
@@ -102,6 +122,10 @@
 				this.$data.pageNow = 1;
 				this.getDatas();
 			},
+			page2: function(o) {
+				this.$data.pageNow = o;
+				this.getDatas();
+			},
 			getDatas: function() {
 				var obj = this;
 				obj.$http({
@@ -113,6 +137,10 @@
 				}).then((res) => {
 					if (res.data.success) {
 						obj.$data.datas = res.data.data.content;
+						//分页
+						obj.$data.totalElements = res.data.data.totalElements;
+						obj.$data.totalPages = res.data.data.totalPages;
+						obj.pageAble(res.data.data.totalPages);
 					} else {
 						obj.$data.datas = [];
 					}
@@ -139,7 +167,27 @@
 			// 修改
 			update: function(uuid) {
 				this.$refs.update.getData(uuid);
-			}
+			},
+			pageAble:function(o){
+			   var obj = this;
+			  obj.$data.pages = [];
+        if( o <= 15){
+          obj.$data.pages = o;
+        }else{
+          var b = obj.$data.pageNow;
+          var a = b - 5;
+          var c = b + 5;
+          if(a < 1){
+            a = 1;
+          }
+          if(c > obj.$data.totalPages){
+            c = obj.$data.totalPages
+          }
+          for(var i = a;i <= c;i++){
+            obj.$data.pages.push(i);
+          }
+        }
+      }
 		}
 	}
 </script>
