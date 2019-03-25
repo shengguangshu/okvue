@@ -91,30 +91,30 @@ export default new Router({
 					isJur: 'tags'
 				}
 			}, {
-        path: 'brand',
-        name: 'brand',
-        component: brand,
-        meta: {
-          isLogin: true,
-          isJur: 'brand'
-        }
-      }, {
-         path: 'number',
-         name: 'number',
-         component: number,
-         meta: {
-           isLogin: true,
-           isJur: 'number'
-         }
-       }, {
-         path: 'carIntroduction',
-         name: 'carIntroduction',
-         component: carIntroduction,
-         meta: {
-           isLogin: true,
-           isJur: 'carIntroduction'
-         }
-       }
+				path: 'brand',
+				name: 'brand',
+				component: brand,
+				meta: {
+					isLogin: true,
+					isJur: 'brand'
+				}
+			}, {
+				path: 'number',
+				name: 'number',
+				component: number,
+				meta: {
+					isLogin: true,
+					isJur: 'number'
+				}
+			}, {
+				path: 'carIntroduction',
+				name: 'carIntroduction',
+				component: carIntroduction,
+				meta: {
+					isLogin: true,
+					isJur: 'carIntroduction'
+				}
+			}
 
 		]
 	}, {
