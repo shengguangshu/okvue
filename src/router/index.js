@@ -9,7 +9,8 @@ import zwgl from '@/components/zwgl/zwgl'
 import cshqx from '@/components/cshqx/cshqx'
 import yggl from '@/components/yggl/yggl'
 import tags from '@/components/tags/tags'
-
+import brand from '@/components/brand/brand'
+import number from '@/components/number/number'
 
 import notFile from '@/components/notFile'
 import notJurisdiction from '@/components/notJurisdiction'
@@ -88,7 +89,23 @@ export default new Router({
 					isLogin: true,
 					isJur: 'tags'
 				}
-			}
+			}, {
+        path: 'brand',
+        name: 'brand',
+        component: brand,
+        meta: {
+          isLogin: true,
+          isJur: 'brand'
+        }
+      }, {
+         path: 'number',
+         name: 'number',
+         component: number,
+         meta: {
+           isLogin: true,
+           isJur: 'number'
+         }
+       }
 
 		]
 	}, {
